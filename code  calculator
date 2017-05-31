@@ -1,0 +1,119 @@
+# Fibonacci calculator. Prueba autodidacta de programación con Godot para crear aplicación para el teléfono móvil.
+
+extends Node2D
+# Fibonacci calculator
+var resultadoP = 0
+var registro2 = 0
+var reo = 1
+#var operador = 1
+
+func _ready():
+	#set_fixed_process(true)
+	pantallika()
+	set_process_input(true)
+	
+func acumula(pulsa):
+	print("acmula")
+	print ("el resultado es:")
+	resultadoP = (pulsa+(resultadoP * 10))
+	print(resultadoP)
+	pantallika()
+	pass
+
+
+	
+func restar():
+	print("reeeeeeeeesstttttttrrrrr")
+	
+func opera(operador):
+	print("opera: roperador y6 reo: ")
+	print(operador)
+	print(reo)
+	if reo == 1: # 1 es sumar
+		print("tenia que sumar")
+		resultadoP = resultadoP + registro2
+		registro2 = resultadoP
+	
+	if reo == 2: # 2 es restar
+		print("tenia que restarr")
+		print(resultadoP)
+		print("menos")
+		print(registro2)
+		print("ahora")
+		resultadoP = registro2 - resultadoP
+		print("el resultado es")
+		print(resultadoP)
+		registro2 = resultadoP
+	#Actualizo registro operador
+	reo = operador
+
+func pantallika():
+	var pantalla = get_node("pantalla")
+	pantalla.set_text("FC: " + str(resultadoP))
+	
+func _input(event):
+	###ENTRADAS
+	##Operaciones
+	if event.is_action_pressed("ui_mas"):
+		print("+")
+		#sumar()
+		opera(1)
+		pantallika()
+		resultadoP=0
+	if event.is_action_pressed("ui_menos"):
+		print("-")
+		opera(2)
+		pantallika()
+		resultadoP=0
+		
+	if event.is_action_pressed("ui_mul"):
+		opera(3)
+		print("*")
+	if event.is_action_pressed("ui_div"):
+		print("/")
+		opera(4)
+	##Igual
+	if event.is_action_pressed("ui_igual"):
+		print("=")
+	##Nuemeros
+	if event.is_action_pressed("ui_cero"):
+		print("0")
+		pantallika()
+		acumula(0)
+	if event.is_action_pressed("ui_uno"):
+		print("1")
+		pantallika()
+		acumula(1)
+	if event.is_action_pressed("ui_dos"):
+		pantallika()
+		acumula(2)
+		print("2")
+	if event.is_action_pressed("ui_tres"):
+		pantallika()
+		acumula(3)
+		print("3")
+	if event.is_action_pressed("ui_cuatro"):
+		print("4")
+		pantallika()
+		acumula(4)
+	if event.is_action_pressed("ui_cinco"):
+		pantallika()
+		acumula(5)
+		print("5")
+	if event.is_action_pressed("ui_seis"):
+		pantallika()
+		acumula(6)
+		print("6")
+	if event.is_action_pressed("ui_siete"):
+		pantallika()
+		acumula(7)
+		print("7")
+	if event.is_action_pressed("ui_ocho"):
+		pantallika()
+		acumula(8)
+		print("8")
+	if event.is_action_pressed("ui_nueve"):
+		pantallika()
+		acumula(9)
+		print("9")
+		
