@@ -1,0 +1,265 @@
+extends Node2D
+# Fibonacci calculator
+var resultadoP  = 0.000
+var registro2 = 0.000
+var reo = 1
+#var operador = 1
+
+func _ready():
+	#set_fixed_process(true)
+	pantallika()
+	set_process_input(true)
+	
+
+#operaciones matemáticas
+func sumar():
+	print("tenia que sumar")
+	resultadoP = resultadoP + registro2
+	registro2 = resultadoP
+
+func por():
+	print("tenia por")
+	resultadoP = resultadoP * registro2
+	registro2 = resultadoP
+
+func igual():
+		print("igual") 
+
+func restar():
+		print("tenia que restar")
+		print(resultadoP)
+		print("menos")
+		print(registro2)
+		print("ahora")
+		resultadoP = registro2 - resultadoP
+		print("el resultado es")
+		print(resultadoP)
+		registro2 = resultadoP
+	
+# entradas boton operaciones matemáticas
+func botonreset():
+	print("ceroooooooo")
+	resultadoP = 0.000
+	registro2 = 0.000
+	pantallika()
+
+func botonigual():
+	print("las dao al igual")
+	pantallika()
+	opera(0)
+	print("de segunasl")
+	pantallika()
+	opera(0)
+	
+func botonmas():
+	opera(1)
+	pantallika()
+	resultadoP=0
+	
+func botonmenos():
+	opera(2)
+	pantallika()
+	resultadoP=0
+	
+func botonpor():
+	opera(3)
+	pantallika()
+	resultadoP=0
+	
+func botondiv():
+	opera(4)
+	pantallika()
+	resultadoP=0
+
+
+# numeros 
+func num0():
+	print("0")
+	pantallika()
+	acumula(0)
+
+func num1():
+	print("1")
+	pantallika()
+	acumula(1)
+
+func num2():
+	print("2")
+	pantallika()
+	acumula(2)
+	
+func num3():
+	print("3")
+	pantallika()
+	acumula(3)
+	
+func num4():
+	print("4")
+	pantallika()
+	acumula(4)
+
+func num5():
+	print("5")
+	pantallika()
+	acumula(5)
+func num6():
+	print("6")
+	pantallika()
+	acumula(6)
+
+func num7():
+	print("7")
+	pantallika()
+	acumula(7)
+	
+func num8():
+	print("8")
+	pantallika()
+	acumula(8)
+
+func num9():
+	print("9")
+	pantallika()
+	acumula(9)
+	
+func acumula(pulsa):
+	print("acmula")
+	print ("el resultado es:")
+	resultadoP = (pulsa+(resultadoP * 10))
+	print(resultadoP)
+	pantallika()
+	pass
+	
+func opera(operador):
+	print("opera: roperador y6 reo: ")
+	print(operador)
+	print(reo)
+
+	if reo == 1: # 1 es sumar
+		sumar()
+	if reo == 2: # 2 es restar
+		restar()
+	if reo == 3:
+		por()
+	if reo == 4: # 1 es sumar
+		print("tenia que dividirr")
+		if (resultadoP and registro2) != 0 : 
+			resultadoP =  registro2 / resultadoP
+			registro2 = resultadoP
+	#Actualizo registro operadori
+	if operador == 0:
+		print("el porculo ig")
+		print(operador)
+		print(reo)
+
+	reo = operador
+
+func pantallika():
+	var pantalla = get_node("pantalla")
+	pantalla.set_text("FC: " + str(resultadoP))
+	
+func _input(event):
+	###ENTRADAS
+	##Operaciones
+	if event.is_action_pressed("ui_mas"):
+		botonmas()
+	if event.is_action_pressed("ui_menos"):
+		botonmenos()
+	if event.is_action_pressed("ui_mul"):
+		botonpor()
+	if event.is_action_pressed("ui_div"):
+		botondiv()
+	##Igual
+	if event.is_action_pressed("ui_igual"):
+		print("=")
+		botonigual()
+		
+	##Nuemeros
+	if event.is_action_pressed("ui_cero"):
+		num0()
+	if event.is_action_pressed("ui_uno"):
+		num1()
+
+	if event.is_action_pressed("ui_dos"):
+		num2()
+	if event.is_action_pressed("ui_tres"):
+		num3()
+	if event.is_action_pressed("ui_cuatro"):
+		num4()
+	if event.is_action_pressed("ui_cinco"):
+		num5()
+	if event.is_action_pressed("ui_seis"):
+		num6()
+	if event.is_action_pressed("ui_siete"):
+		num7()
+	if event.is_action_pressed("ui_ocho"):
+		num8()
+	if event.is_action_pressed("ui_nueve"):
+		num9()
+		
+
+
+# Aquiiiiiiiiiii   cos botones operaciones 
+func _on_buttonmas_pressed():
+	botonmas()
+	
+func _on_Buttondivision_pressed():
+	botondiv()
+	
+func _on_Buttondivisioni_pressed():
+	botonigual()
+	
+func _on_Buttonresta_pressed():
+	botonmenos()
+	pass # replace with function body
+
+func _on_Buttonreset_pressed():
+	botonreset()
+	pass # replace with function body
+
+func _on_Buttonpor_pressed():
+	botonpor()
+	pass # replace with function body
+
+func _on_Button0_pressed():
+	print("hola que haces? pulso el ceroo")
+	num0()
+	pass 
+	# replace with function bod
+# botones  de pantalla pa raton de los numeros 
+func _on_Button_pressed():
+	num1()
+	print("hola que haces? pulso el uno")
+	pass # replace with function body
+	
+func _on_Button2_pressed():
+	num2()
+	pass # replace with function body
+	
+func _on_Button3_pressed():
+	num3()
+	pass # replace with function body
+	
+func _on_Button4_pressed():
+	num4()
+	pass # replace with function body
+	
+func _on_Button5_pressed():
+	num5()
+	pass # replace with function body
+	
+func _on_Button6_pressed():
+	num6()
+	pass # replace with function body
+	
+func _on_Button7_pressed():
+	num7()
+	pass # replace with function body
+	
+func _on_Button8_pressed():
+	num8()
+	pass # replace with function body
+	
+func _on_Button9_pressed():
+	num9()
+	pass # replace with function body
