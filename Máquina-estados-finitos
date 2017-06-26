@@ -1,0 +1,220 @@
+extends Node
+# escrop principal de cambios de pantalla:
+#
+#constantes de de estado:
+const estado0 = 0 # pal mete el menu
+const estado1 = 1 # pantalla 1
+
+const estadoNulo = 10
+const estadoLogo = 11
+const estadoGO = 12
+const estadoGOE = 13
+
+# Bloque de variables para las escenas decarga
+var escenaActualIstanciada
+var escenaGOinstanciado
+var escenabotoneraGO
+var escenabotoneraMenuBP01 
+var escenaHudInstanciada
+var escenaCyclopi
+var escenaGameOver
+var escenaInfoBoton
+var escenaPlayer
+var escenaObstaculo
+var escenaBarritaVida
+# 
+# Bloque de variables para la precarga de las escenas
+var escenapreCyclopi = preload("res://EscenaCycloPi.tscn")
+# Bloque pantallas del Menú
+var escenaprecarga = preload("res://EscenaMenu.tscn")
+var escenaprecargaBP01 = preload("res://EscenaBotPa01.tscn")
+
+# Bloque pantallas 1
+var escenaprecargaP01 = preload("res://EscenaPantalla1.tscn")
+	# Bloque Hub
+var escenapreHud = preload("res://EscenaHud.tscn")
+var escenapreBarrita = preload("res://EscenaBarraVidaAnimada.xml")
+var escenapreNumero = preload("res://EscenaNumero.tscn")
+var escenaprePlayer = preload("res://player/EscenaKineNave.xml")
+	# Bloque player:
+var escenapreObstaculo = preload("res://obstaculos/EscenaObstaculoRect.xml")
+
+#var escenaprepplayer = preload("res://player/EscenaPlayer.tscn")
+
+# bloque de mis funciones:
+func meteinfoboton():
+	escenaInfoBoton = escenapreNumero.instance()
+	get_parent().add_child(escenaInfoBoton )
+	get_parent().add_child(escenaGameOver)
+	escenaInfoBoton.set_pos(Vector2(0,200))
+	escenaInfoBoton.set_scale(Vector2(6,6))
+
+func metologo(pozX,pozY):
+	escenaCyclopi = escenapreCyclopi.instance()
+	get_parent().add_child(escenaCyclopi)
+	escenaCyclopi.set_pos(Vector2(360,pozY))
+	print("pongo el logo")
+
+func _ready():
+	GDglobal.NumEscena = estadoLogo 
+	set_process_input(true)
+	set_process(true)
+func _process(delta):
+	print("me cago ento")
+	set_process(false)
+	
+func _input(event):
+	"""
+	print("entrada: valor Vida y estado")
+	print(GDglobal.vidaBueno)
+	print(GDglobal.NumEscena)
+	"""
+	
+	if GDglobal.NumEscena == estadoLogo:
+		metologo(360,300)
+		GDglobal.NumEscena = estado0
+		print("pongo el logo")
+			
+	if event.type == InputEvent.SCREEN_TOUCH or InputEvent.SCREEN_DRAG or event.type == InputEvent.KEY:
+		print("entrada: valor Vida y estado")
+		print(GDglobal.vidaBueno)
+		print(GDglobal.NumEscena)
+		
+
+			# bloque del game over
+		if (int(GDglobal.vidaBueno) < 1) and GDglobal.banderaGO == false:
+			GDglobal.banderaGO = true
+			GDglobal.NumEscena = estadoGO
+		
+		
+
+		if GDglobal.NumEscena == estadoGO:
+			#Bloque de liberación
+			escenaHudInstanciada.free()
+			GDglobal.lavidaPantalla.free()
+			#GDglobal.numVidas.free()
+			escenaActualIstanciada.free()
+			escenaPlayer.free()
+			
+			#Bloque de valores del estado
+			GDglobal.NumEscena = estadoGOE
+			GDglobal.vidaBueno = GDglobal.totalvida
+			
+			#bloque carga el game over
+			escenaGameOver = escenapreNumero.instance()
+			get_parent().add_child(escenaGameOver)
+			escenaGameOver.set_pos(Vector2(0,750))
+			escenaGameOver.set_scale(Vector2(5,5))
+			escenaGameOver.set_text("Game Over: Cabrón")
+			
+			#bloque carga el game over
+			escenabotoneraMenuBP01 = escenaprecargaBP01.instance()
+			get_parent().add_child(escenabotoneraMenuBP01)
+			
+			#bloque carga info boton
+			meteinfoboton()
+			escenaInfoBoton.set_text("Al menu")
+			
+			metologo(360,80)
+			#GDglobal.NumEscena = estado0
+			print("pongo el logo")
+			
+			
+			
+	
+		if GDglobal.NumEscena == estado1:
+			
+			#Bloque de liberación
+			escenaActualIstanciada.free() # libera la escena menú 
+			escenabotoneraMenuBP01.free() # libera el boton del menu
+			escenaInfoBoton.free() # libera el boton del menu
+
+			escenaActualIstanciada =escenaprecargaP01.instance() # carga l a  pantalla 1
+			get_parent().add_child(escenaActualIstanciada) # carga los nodos hijos de pantalla 1
+			print("has pulsao y esta el la 1 : el manu , entonce posngo la pantalla00 1: la pantalla de juego 1")
+			escenaHudInstanciada = escenapreHud.instance()
+			get_parent().add_child(escenaHudInstanciada)
+			print("pongo el hud")
+			
+			GDglobal.lavidaPantalla = escenapreNumero.instance()
+			get_parent().add_child(GDglobal.lavidaPantalla)
+			GDglobal.lavidaPantalla.set_pos(Vector2(10,1100))
+			GDglobal.lavidaPantalla.set_scale(Vector2(6,6))
+			GDglobal.actualizapantalla()
+			
+			#bloque pa meter al player
+			escenaPlayer = escenaprePlayer.instance()
+			get_parent().add_child(escenaPlayer)
+			escenaPlayer.set_pos(Vector2(360,1100))
+			
+			"""
+			#bloque pa meter escenario
+			escenaObstaculo = escenapreObstaculo.instance()
+			get_parent().add_child(escenaObstaculo)
+			escenaObstaculo.set_pos(Vector2(602,400))
+			"""
+			escenaObstaculo = escenapreObstaculo.instance()
+			get_parent().add_child(escenaObstaculo)
+			escenaObstaculo.set_pos(Vector2(502,400))
+			
+			#bloque pa meter la barra de la vida
+			escenaBarritaVida = escenapreBarrita.instance()
+			get_parent().add_child(escenaBarritaVida)
+			escenaBarritaVida.set_pos(Vector2(330,1230))
+			#para cambair por armadura, cambiar las variables
+			"""
+			print("pongo el  valor de la vida")
+			GDglobal.numVidas = escenapreNumero.instance()
+			get_parent().add_child(GDglobal.numVidas)
+			GDglobal.numVidas.set_pos(Vector2(650,420))
+			GDglobal.numVidas.set_scale(Vector2(6,6))
+			GDglobal.numVidas.set_text("Vidas: " + str(GDglobal.totalvidas))
+			print("pongo el  valor de las vidas que quedan")
+			"""
+			GDglobal.NumEscena = 2
+			
+			
+		if GDglobal.NumEscena == estado0 and GDglobal.bandera1p and GDglobal.banderaGO:
+			# cargo el menu
+			escenaActualIstanciada = escenaprecarga.instance()
+			get_parent().add_child(escenaActualIstanciada)
+			
+			print("meto la pantalla menu , vengo del game over") 
+			
+			# bloque de valores
+			GDglobal.NumEscena = estadoNulo
+			GDglobal.banderaGO = false
+			
+			escenaInfoBoton.set_text("A la primera pantalla") #info menu
+			
+			
+			#bloque de liberación:
+			escenaGameOver.free()
+			escenaCyclopi.free()
+			
+		if GDglobal.NumEscena == estado0 and GDglobal.bandera1p and GDglobal.banderaGO == false:
+			escenaActualIstanciada = escenaprecarga.instance()
+			get_parent().add_child(escenaActualIstanciada)
+			GDglobal.NumEscena = estadoNulo
+			print("meto la pantalla menu , vengo de otr pantalla")
+			escenabotoneraMenuBP01 = escenaprecargaBP01.instance()
+			get_parent().add_child(escenabotoneraMenuBP01)
+			
+		if GDglobal.NumEscena == estado0 and GDglobal.bandera1p == false:
+			escenaActualIstanciada = escenaprecarga.instance()
+			get_parent().add_child(escenaActualIstanciada)
+			GDglobal.NumEscena = estadoNulo
+			print("meto la pantalla menu , no hay pantalla,")
+			
+			escenabotoneraMenuBP01 = escenaprecargaBP01.instance()
+			get_parent().add_child(escenabotoneraMenuBP01)
+			
+			GDglobal.bandera1p = true # la bandera, ya has ejecutado el juego primera vez
+			print("mete la botonera")
+			
+			escenaCyclopi.free()
+			print("saca al cyclo pi")
+			
+			# bloque meto la info  del boton
+			meteinfoboton()
+			escenaInfoBoton.set_text("To play; A jugar")
