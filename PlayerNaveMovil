@@ -1,0 +1,62 @@
+extends KinematicBody2D
+
+# class member variables go here, for example:
+# var a = 2
+# var b = "textvar"
+var playerPos = Vector2()
+var escenaProyectil
+
+var escenapreProyectil = preload("res://player/EscenaProyectil.xml")
+
+func _fixed_process(delta):
+	
+	# el siguiente bloque no va
+	if (is_colliding()):
+		print("gggggggggggggggggg")
+
+
+func _ready():
+	# Called every time the node is added to the scene.
+	# Initialization here
+	set_process_input(true)
+	set_fixed_process(true)
+	#print(playerPos)
+	pass
+
+#	print("hhhh")
+	
+func _input(event):
+	#print("acho que")
+	#bloque de mecanicas de movimiento:
+	if event.type == InputEvent.SCREEN_TOUCH:
+		playerPos = event.pos
+		set_global_pos(playerPos)
+		print(playerPos)
+		
+		# bloque dispoaro
+		escenaProyectil =  escenapreProyectil.instance()
+		get_parent().add_child(escenaProyectil)
+		escenaProyectil.set_pos(Vector2((event.pos.x),(event.pos.y - 150)))
+		escenaProyectil.set_scale(Vector2(0.6,0.6))
+		#escenaProyectil.move(Vector2(200,100))
+		
+	if event.type == InputEvent.SCREEN_DRAG:
+		playerPos = event.pos
+		set_global_pos(playerPos)
+	
+	
+#bloque de mecanicas de movimiento:
+func _on_Area2D_body_enter( body ):
+	daniko()
+	pass # replace with function body
+
+
+func _on_Area2D_body_exit( body ):
+	daniko()
+	pass # replace with function body
+
+func daniko():
+	print("toque toque salida")
+	GDglobal.vidaBueno -= GDglobal.dano # esta línea se pone donde sea el daño al bueno
+	GDglobal.actualizapantalla() # actualizo ña vida
+	
